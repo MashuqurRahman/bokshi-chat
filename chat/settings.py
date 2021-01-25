@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from os.path import join
 
@@ -22,7 +21,7 @@ PROJECT_ROOT = BASE_DIR
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ABC1234' #TODO Changeme
+SECRET_KEY = 'ABC1234'  #TODO Changeme
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,7 +43,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'channels',
     'crispy_forms',
-    
 ]
 
 MIDDLEWARE = [
@@ -76,21 +74,21 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'chat.wsgi.application'
+ASGI_APPLICATION = 'chat.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bokshi_chat',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': '127.0.0.1',   # Or an IP Address that your DB is hosted on
+        'HOST': '127.0.0.1',  # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
@@ -118,11 +116,10 @@ AUTH_PASSWORD_VALIDATORS = []
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
-    ],
+    'DEFAULT_PERMISSION_CLASSES':
+    ['rest_framework.permissions.IsAuthenticated'],
     'DEFAULT_PAGINATION_CLASS':
-        'rest_framework.pagination.LimitOffsetPagination',
+    'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100
 }
 
@@ -185,7 +182,6 @@ try:
 except ImportError:
     pass
 
-ASGI_APPLICATION = 'chat.routing.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
