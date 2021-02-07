@@ -1,3 +1,4 @@
+// static/js/group_app
 let currentRecipient = '';
 let chatInput = $('#chat-input');
 let chatButton = $('#btn-send');
@@ -22,6 +23,41 @@ function updateUserList() {
     });
 }
 
+function updateGroupList(){
+    $.getJSON('api/v1/groups/', function (data) {
+        // userList.children('.user').remove();[mashuq commented this]
+
+        for (let i = 0; i < data.length; i++) {
+            const userItem = `<a class="list-group-item group">${data[i]['name']}</a>`;
+            $(userItem).appendTo('#group-list');
+            console.log(userItem);
+        }
+        // $('.user').click(function () {
+        //     userList.children('.active').removeClass('active');//[the previous selected active username er front end er active class remove hobe]
+        //     let selected = event.target;
+        //     $(selected).addClass('active');
+        //     setCurrentRecipient(selected.text);
+        // });
+    });
+}
+
+function updateGroupList(){
+    $.getJSON('http://localhost:8000/api/v1/groups/', function (data) {
+        // userList.children('.user').remove();[mashuq commented this]
+
+        for (let i = 0; i < data.length; i++) {
+            const userItem = `<a class="list-group-item group">${data[i]['name']}</a>`;
+            $(userItem).appendTo('#group-list');
+            console.log(userItem);
+        }
+        // $('.user').click(function () {
+        //     userList.children('.active').removeClass('active');//[the previous selected active username er front end er active class remove hobe]
+        //     let selected = event.target;
+        //     $(selected).addClass('active');
+        //     setCurrentRecipient(selected.text);
+        // });
+    });
+}
 // Receive one message and append it to message list
 function drawMessage(message) {
     let position = 'left';
@@ -97,13 +133,14 @@ function disableInput() {
 }
 
 $(document).ready(function () {
-    updateUserList();
+    // updateUserList();
+    updateGroupList();
     disableInput();
 
 //    let socket = new WebSocket(`ws://127.0.0.1:8000/?session_key=${sessionKey}`);
     var socket = new WebSocket(
         'ws://' + window.location.host +
-        '/ws?session_key=${sessionKey}')
+        '/ws/group?session_key=${sessionKey}')
 
     chatInput.keypress(function (e) {
         if (e.keyCode == 13)
@@ -122,4 +159,3 @@ $(document).ready(function () {
         getMessageById(e.data);
     };
 });
-

@@ -1,5 +1,6 @@
 from django.contrib.admin import ModelAdmin, site
-from core.models import MessageModel
+
+from core.models import ChatGroup, ChatGroupMessage, MessageModel
 
 
 class MessageModelAdmin(ModelAdmin):
@@ -12,3 +13,5 @@ class MessageModelAdmin(ModelAdmin):
 
 
 site.register(MessageModel, MessageModelAdmin)
+site.register(ChatGroup)
+site.register(ChatGroupMessage)

@@ -1,8 +1,11 @@
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.db import models
 from django.db.models import (CASCADE, DateTimeField, ForeignKey, Model,
                               TextField)
+from django.db.models.fields import related
 
 
 class MessageModel(Model):
@@ -11,20 +14,24 @@ class MessageModel(Model):
     the message body.
 
     """
-    user = ForeignKey(User,
-                      on_delete=CASCADE,
-                      verbose_name='user',
-                      related_name='from_user',
-                      db_index=True)
-    recipient = ForeignKey(User,
-                           on_delete=CASCADE,
-                           verbose_name='recipient',
-                           related_name='to_user',
-                           db_index=True)
-    timestamp = DateTimeField('timestamp',
-                              auto_now_add=True,
-                              editable=False,
-                              db_index=True)
+
+    user = ForeignKey(
+        User,
+        on_delete=CASCADE,
+        verbose_name='user',
+        related_name='from_user',
+        db_index=True,
+    )
+    recipient = ForeignKey(
+        User,
+        on_delete=CASCADE,
+        verbose_name='recipient',
+        related_name='to_user',
+        db_index=True,
+    )
+    timestamp = DateTimeField(
+        'timestamp', auto_now_add=True, editable=False, db_index=True
+    )
     body = TextField('body')
 
     def __str__(self):
@@ -43,17 +50,17 @@ class MessageModel(Model):
         """
         notification = {
             'type': 'recieve_group_message',
-            'message': '{}'.format(self.id)
+            'message': '{}'.format(self.id),
         }
 
         channel_layer = get_channel_layer()
         # print("user.id {}".format(self.user.id))
         # print("user.id {}".format(self.recipient.id))
 
-        async_to_sync(channel_layer.group_send)("{}".format(self.user.id),
-                                                notification)
-        async_to_sync(channel_layer.group_send)("{}".format(self.recipient.id),
-                                                notification)
+        async_to_sync(channel_layer.group_send)("{}".format(self.user.id), notification)
+        async_to_sync(channel_layer.group_send)(
+            "{}".format(self.recipient.id), notification
+        )
 
     def save(self, *args, **kwargs):
         """
@@ -71,4 +78,30 @@ class MessageModel(Model):
         app_label = 'core'
         verbose_name = 'message'
         verbose_name_plural = 'messages'
-        ordering = ('-timestamp', )
+        ordering = ('-timestamp',)
+
+
+class ChatGroup(models.Model):
+    name = models.CharField(max_length=50)
+    member = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='chat_groups'
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class ChatGroupMessage(models.Model):
+    group_name = models.ForeignKey(
+        ChatGroup, on_delete=models.CASCADE, related_name='messages'
+    )
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='chat_group_messages',
+    )
+    message = models.TextField()
+    timestamp = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.message}'
