@@ -10,7 +10,10 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{% url 'home' %}">
-                <i class="fa fa-comments"></i> Bokshi Chat
+                <i class="fa fa-comments"></i>Chat
+            </a>
+            <a class="navbar-brand" href="{% url 'groups' %}">
+                <i class="fa fa-comments"></i>Groups
             </a>
         </div>
 
@@ -24,7 +27,7 @@
                             {{ user.username }}
                         </a>
                     </li>
-                   
+
                     <li>
                         <a href="{% url 'logout' %}">
                             <i class="fa fa-sign-out" aria-hidden="true"></i>

@@ -2,6 +2,7 @@
 note
 .vim
 Session.vim
+.vscode/
 
 # Django #
 *.log
