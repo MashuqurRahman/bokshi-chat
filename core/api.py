@@ -44,6 +44,7 @@ class MessageModelViewSet(ModelViewSet):
     pagination_class = MessagePagination
 
     def list(self, request, *args, **kwargs):
+        # breakpoint()
         self.queryset = self.queryset.filter(
             Q(recipient=request.user) | Q(user=request.user)
         )
