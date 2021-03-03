@@ -3,17 +3,17 @@
 import json
 
 from channels.db import database_sync_to_async
-
 from channels.generic.websocket import AsyncWebsocketConsumer
-from .models import ChatGroupMessage, ChatGroup
 from django.contrib.auth.models import User
+
+from .models import ChatGroup, ChatGroupMessage
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        print()
-        print("connect method called")
-        print()
+        # print()
+        # print("connect method called")
+        # print()
         user_id = self.scope["session"]["_auth_user_id"]
         self.group_name = "{}".format(user_id)
         # Join room group

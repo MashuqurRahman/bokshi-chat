@@ -44,6 +44,7 @@ class MessageModelViewSet(ModelViewSet):
     pagination_class = MessagePagination
 
     def list(self, request, *args, **kwargs):
+        # breakpoint()
         self.queryset = self.queryset.filter(
             Q(recipient=request.user) | Q(user=request.user)
         )
@@ -73,10 +74,10 @@ class UserModelViewSet(ModelViewSet):
     allowed_methods = ('GET', 'HEAD', 'OPTIONS')
     pagination_class = None  # Get all user
 
-    # def list(self, request, *args, **kwargs):
-    #     # Get all users except yourself
-    #     self.queryset = self.queryset.exclude(id=request.user.id)
-    #     return super(UserModelViewSet, self).list(request, *args, **kwargs)
+    def list(self, request, *args, **kwargs):
+        # Get all users except yourself
+        self.queryset = self.queryset.exclude(id=request.user.id)
+        return super(UserModelViewSet, self).list(request, *args, **kwargs)
 
 
 class ChatGroupView(
