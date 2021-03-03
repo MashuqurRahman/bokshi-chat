@@ -3,6 +3,7 @@ note
 .vim
 Session.vim
 .vscode/
+requirements.txt
 
 # Django #
 *.log
