@@ -15,7 +15,7 @@ SECRET_KEY = 'ABC1234'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# DEBUG = False
+DEBUG = False
 
 # Application definition
 
@@ -184,6 +184,12 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 
+# Collect static files here
+STATIC_ROOT = join(PROJECT_ROOT, 'staticfiles')
+
+# Collect media files here
+MEDIA_ROOT = join(PROJECT_ROOT, 'mediafiles')
+
 # development setup
 if DEBUG:
     INTERNAL_IPS = [
@@ -211,9 +217,3 @@ if DEBUG:
 
 if not DEBUG:
     ALLOWED_HOSTS = ['*']
-
-    # Collect static files here
-    STATIC_ROOT = join(PROJECT_ROOT, 'staticfiles')
-
-    # Collect media files here
-    MEDIA_ROOT = join(PROJECT_ROOT, 'mediafiles')
