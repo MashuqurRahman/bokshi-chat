@@ -15,7 +15,7 @@ SECRET_KEY = 'ABC1234'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-DEBUG = False
+# DEBUG = False
 
 # Application definition
 
@@ -125,8 +125,15 @@ AUTH_PASSWORD_VALIDATORS = []
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
+
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',  # new
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
 }
@@ -173,6 +180,10 @@ CHANNEL_LAYERS = {
 }
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1
+
 # development setup
 if DEBUG:
     INTERNAL_IPS = [
@@ -196,8 +207,7 @@ if DEBUG:
         'debug_toolbar.panels.profiling.ProfilingPanel',
     ]
 
-
-# deployment setup
+    # deployment setup
 
 if not DEBUG:
     ALLOWED_HOSTS = ['*']
