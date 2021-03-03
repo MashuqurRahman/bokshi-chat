@@ -35,14 +35,14 @@ urlpatterns = [
     #     name='chat_group_message',
     # ),
     # path('group/', group_view, name='groups'),
-    # path(
-    #     '',
-    #     login_required(TemplateView.as_view(template_name='core/chat_bootstrap.html')),
-    #     name='home',
-    # ),
     path(
         '',
-        login_required(TemplateView.as_view(template_name='core/chat.html')),
+        login_required(TemplateView.as_view(template_name='core/chat_bootstrap.html')),
         name='home',
     ),
+    # path(
+    #     '',
+    #     login_required(TemplateView.as_view(template_name='core/chat.html')),
+    #     name='home',
+    # ),
 ]
