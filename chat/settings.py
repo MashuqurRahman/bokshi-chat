@@ -15,7 +15,7 @@ SECRET_KEY = 'ABC1234'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-DEBUG = False
+# DEBUG = False
 
 # Application definition
 
@@ -156,14 +156,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
-MEDIA_URL = '/media/'
 
-# look for static assets here
-STATICFILES_DIRS = [
-    join(PROJECT_ROOT, 'static'),
-]
-
-STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 LOGIN_REDIRECT_URL = '/'
@@ -186,9 +179,15 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 
+STATIC_URL = '/static/'
 # Collect static files here
 STATIC_ROOT = join(PROJECT_ROOT, 'staticfiles')
+# look for static assets here
+STATICFILES_DIRS = [
+    join(PROJECT_ROOT, 'static'),
+]
 
+MEDIA_URL = '/media/'
 # Collect media files here
 MEDIA_ROOT = join(PROJECT_ROOT, 'mediafiles')
 

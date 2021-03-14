@@ -4,6 +4,7 @@ note
 Session.vim
 .vscode/
 requirements.txt
+dump.rdb
 
 # Django #
 *.log

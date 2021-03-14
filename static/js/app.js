@@ -3,6 +3,7 @@ let chatInput = $('#chat-input');
 let chatButton = $('#btn-send');
 let userList = $('#user-list');
 let messageList = $('#message-list');
+let messageBox = $('#message-box')
 // let contactProfile = $("#contact_profile")
 let contactProfile = document.getElementById('contact_profile')
 let userProfile = document.getElementById('profile')
@@ -14,18 +15,19 @@ function updateUserList() {
 
         for (let i = 0; i < data.length; i++) {
             // const userItem = `<li class="contact">${data[i]['username']}</li>`;
-            const userItem = `<li class="contact">
+            const userItem = `<li class="contact online">
                 <div class="wrap">
                 <span class="contact-status online"></span>
-                <img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
+                <img src="http://emilcarlsson.se/assets/louislitt.png" alt="Image" />
                 <div class="meta">
-                    <p class="name" id="name_id">${data[i]['username']}</p>
+                    <p class="name">${data[i]['username']}</p>
+                    <p class="preview">Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
                 </div>
                 </div>
             </li>`
             $(userItem).appendTo('#user-list');
         }
-        $('.contact').click(function (e) {
+        $('.contact div.meta p.name').click(function (e) {
             let selected = $(e.target).text();
             setCurrentRecipient(selected);
         });
@@ -45,7 +47,7 @@ function drawMessage(message) {
     if (message.user === currentUser) position_status = 'replies';
 
     const messageItem = `<li class="message ${position_status}">
-      <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
+      <img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
       <p>${message.body}</p>
       </li>`
     $(messageItem).appendTo('#message-list');
@@ -59,7 +61,8 @@ function getConversation(recipient) {
             drawMessage(data['results'][i]);
         }
         // $(".messages").animate({ scrollTop: $(document).height() }, "fast");
-        // messageList.animate({scrollTop: messageList.prop('scrollHeight')});
+        // messageBox.animate({scrollTop: messageBox.prop('scrollHeight')});
+        messageBox.scrollTop = messageBox.scrollHeight;
     });
 
 }
@@ -73,7 +76,8 @@ function getMessageById(message) {
             (data.recipient === currentRecipient && data.user == currentUser)) {
             drawMessage(data);
         }
-        // messageList.animate({scrollTop: messageList.prop('scrollHeight')});
+        messageBox.scrollTop = messageBox.scrollHeight;
+        // messageBox.animate({scrollTop: messageBox.prop('scrollHeight')});
         // $(".messages").animate({ scrollTop: $(document).height() }, "fast");
     });
 }
@@ -126,14 +130,14 @@ $(document).ready(function () {
         '/ws?session_key=${sessionKey}')
 
     chatInput.keypress(function (e) {
-        console.log(chatInput.val());
+        // console.log(chatInput.val());
         if (e.keyCode == 13)
             chatButton.click();
     });
 
     chatButton.click(function () {
         if (chatInput.val().length > 0) {
-            console.log((currentRecipient));
+            // console.log((currentRecipient));
             sendMessage(currentRecipient, chatInput.val());
             chatInput.val('');
         }

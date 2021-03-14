@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, mixins
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import (SessionAuthentication,
+                                           TokenAuthentication)
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -40,7 +41,11 @@ class MessageModelViewSet(ModelViewSet):
     queryset = MessageModel.objects.all()
     serializer_class = MessageModelSerializer
     allowed_methods = ('GET', 'POST', 'HEAD', 'OPTIONS')
-    authentication_classes = (CsrfExemptSessionAuthentication,)
+    authentication_classes = (
+        CsrfExemptSessionAuthentication,
+        TokenAuthentication,
+    )
+    # authentication_classes = (CsrfExemptSessionAuthentication,)
     pagination_class = MessagePagination
 
     def list(self, request, *args, **kwargs):
